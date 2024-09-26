@@ -22,7 +22,7 @@ const Header = () => {
       {/* Adding Head component with meta tags */}
       <Head>
         <title>Galaxy Education | Study Visa Consultant</title>
-        <meta name="description" content="Study visa consultant platform powered by Next.js, Tailwind CSS, and contentlayer." />
+        <meta name="description" content="Study visa consultant platform powered by Next.js, Tailwind CSS, and sanity." />
 
         {/* Open Graph (Facebook, LinkedIn) Meta Tags */}
         <meta property="og:title" content="Galaxy Education | Study Visa Consultant" />

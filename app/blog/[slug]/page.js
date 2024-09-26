@@ -69,16 +69,17 @@ export default async function Page({ params }) {
 
   return (
     <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8 items-center text-dark dark:text-light">
-      {/* Blog Title */}
+      {/* Course Title */}
       <h1 className="text-3xl lg:text-5xl font-bold mb-8">
         {course.title}
       </h1>
 
+      {/* Visit Course Button */}
       <section className="mt-8 flex justify-center">
         <VisitCourseButton href={course.href} />
       </section>
 
-      {/* Featured Image */}
+      {/* Course Image */}
       {course.imageUrl && (
         <div className="w-full max-w-4xl">
           <Image
@@ -91,7 +92,7 @@ export default async function Page({ params }) {
         </div>
       )}
 
-      {/* Blog Summary Section */}
+      {/* Course Summary Section */}
       <section className="text-center w-full max-w-4xl">
         <h2 className="text-xl xs:text-2xl md:text-3xl font-bold uppercase text-accentDarkPrimary mb-4">
           Summary
