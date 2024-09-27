@@ -5,6 +5,7 @@ import { urlFor } from "@/sanity/lib/image"; // Import urlFor to generate image 
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
+// Fetch slugs for static generation
 export async function generateStaticParams() {
   const query = `*[_type=='course']{
     "slug": slug.current
@@ -17,7 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
-  // Fetch the course based on the slug
+  // Fetch the course data based on the slug
   const query = `*[_type=="course" && slug.current == $slug]{
     description,
     "slug": slug.current,
@@ -35,7 +36,9 @@ export async function generateMetadata({ params }) {
   }
 
   // Generate the image URL dynamically using urlFor and ensure proper dimensions
-  const imageUrl = course.image ? urlFor(course.image).width(1200).height(630).url() : "";
+  const imageUrl = course.image
+    ? urlFor(course.image).width(1200).height(630).url()
+    : `https://www.galaxyeducation.org/default-image.jpg`; // Fallback to a valid default image URL
 
   return {
     title: `${course.title} | Study Visa Consultant`,
@@ -44,14 +47,14 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/course/${course.slug}`,
-      images: [imageUrl],     
-       type: 'article', // Set Open Graph type as 'article'
+      images: [{ url: imageUrl }],  // Explicitly providing the image URL
+      type: 'article', // Set Open Graph type as 'article'
     },
     twitter: {
       card: 'summary_large_image',
       title: course.title,
       description: course.description,
-      images: [imageUrl],
+      images: [imageUrl],  // Providing image URL for Twitter card
     },
     other: {
       'pinterest:title': course.title,
@@ -61,6 +64,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// Page component to display the course details
 export default async function Page({ params }) {
   const { slug } = params;
 
@@ -80,6 +84,11 @@ export default async function Page({ params }) {
     return <div className="text-center">Course not found</div>;
   }
 
+  // Dynamically generate image URL using urlFor
+  const imageUrl = course.image
+    ? urlFor(course.image).width(1200).height(630).url()
+    : `https://www.galaxyeducation.org/default-image.jpg`; // Fallback image
+
   return (
     <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8 items-center text-dark dark:text-light">
       {/* Course Title */}
@@ -93,10 +102,10 @@ export default async function Page({ params }) {
       </section>
 
       {/* Course Image */}
-      {course.image && (
+      {imageUrl && (
         <div className="w-full max-w-4xl">
           <Image
-            src={urlFor(course.image).width(1200).height(630).url()} // Ensure image dimensions are suitable for social preview
+            src={imageUrl} // Ensure image dimensions are suitable for social preview
             width={1200}
             height={630}
             alt={course.title || "Course image"}

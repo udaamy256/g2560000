@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Head from "next/head";  // Importing Head component for meta tags
+import Head from "next/head"; // Importing Head component for meta tags
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
@@ -33,17 +33,19 @@ const Courses = () => {
     fetchData();
   }, []);
 
+  const firstCourseImageUrl = courses[0]?.imageUrl || '/default-image.jpg';
+
   return (
     <main className="w-full mt-16 sm:mt-24 md:mt-32 px-5 sm:px-10 md:px-24 lg:px-32 flex flex-col items-center justify-center">
       {/* Adding Head component for SEO and Open Graph meta tags */}
       <Head>
         <title>Courses | Study Visa Consultant</title>
         <meta name="description" content="Explore our latest courses created with Next.js, Tailwind CSS, and more." />
-        
+
         {/* Open Graph tags */}
         <meta property="og:title" content="Courses | Study Visa Consultant" />
         <meta property="og:description" content="Explore our latest courses created with Next.js, Tailwind CSS, and more." />
-        <meta property="og:image" content={courses[0]?.imageUrl || '/default-image.jpg'} />
+        {firstCourseImageUrl && <meta property="og:image" content={firstCourseImageUrl} />}
         <meta property="og:url" content="https://www.galaxyeducation.org/courses" />
         <meta property="og:type" content="website" />
 
@@ -51,7 +53,7 @@ const Courses = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Courses | Study Visa Consultant" />
         <meta name="twitter:description" content="Explore our latest courses created with Next.js, Tailwind CSS, and more." />
-        <meta name="twitter:image" content={courses[0]?.imageUrl || '/default-image.jpg'} />
+        {firstCourseImageUrl && <meta name="twitter:image" content={firstCourseImageUrl} />}
       </Head>
 
       <div className="w-full flex justify-between">
