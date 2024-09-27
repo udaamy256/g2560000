@@ -111,11 +111,9 @@ export default async function Page({ params }) {
       )}
 
       {/* Course Summary Section */}
-      <section className="text-center w-full max-w-4xl">
-        <h2 className="text-xl xs:text-2xl md:text-3xl font-bold uppercase text-accentDarkPrimary mb-4">
-          Summary
-        </h2>
-        <p className="text-base md:text-xl leading-relaxed text-justify text-dark/80 dark:text-light/80">
+      <section className="py-12 px-8 text-center w-full max-w-4xl mx-auto bg-gradient-to-r from-purple-500 via-indigo-500 to-pink-500 rounded-lg shadow-lg">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">Course Summary</h2>
+        <p className="text-white text-lg md:text-2xl leading-relaxed">
           {course.description || "No description available"}
         </p>
       </section>

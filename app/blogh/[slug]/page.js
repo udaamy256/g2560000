@@ -131,7 +131,19 @@ export default async function BlogPage({ params }) {
             />
           )}
         </div>
+
+        {/* Centered Description Section */}
+        <section className="py-12 px-8 text-center w-full max-w-4xl mx-auto bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-lg shadow-lg">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
+            Course Description
+          </h2>
+          <p className="text-white text-lg md:text-2xl leading-relaxed">
+            {blog.description || "No description available"}
+          </p>
+        </section>
+
         <BlogDetails blog={blog} slug={params.slug} toc={headings} />
+        
         <div className="grid grid-cols-12 gap-y-8 lg:gap-8 sxl:gap-16 mt-8 px-5 md:px-10">
           <div className="col-span-12 lg:col-span-4">
             <details
@@ -169,6 +181,7 @@ export default async function BlogPage({ params }) {
               </ul>
             </details>
           </div>
+
           <div className="col-span-12 lg:col-span-8 border-dark dark:border-light text-black dark:text-light">
             {blog.content ? <PortableText value={blog.content} /> : <p>No content available</p>}
           </div>
