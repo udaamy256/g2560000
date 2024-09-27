@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
   }
 
   // Generate image URL from Sanity's image or fallback to null
-  const ogImageUrl = course.image ? urlFor(course.image).url() : null;
+  const imageUrl = course.image ? urlFor(course.image).url() : null;
 
   return {
     title: `${course.title} | Study Visa Consultant`,
@@ -44,19 +44,19 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/course/${course.slug}`,
-      images: ogImageUrl ? [{ url: ogImageUrl }] : [], // Only set image if it exists
+      images: [imageUrl],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: course.title,
       description: course.description,
-      images: ogImageUrl ? [{ url: ogImageUrl }] : [],
+      images: [imageUrl],
     },
     other: {
       'pinterest:title': course.title,
       'pinterest:description': course.description,
-      'pinterest:image': ogImageUrl,
+      'pinterest:image': imageUrl,
     },
   };
 }

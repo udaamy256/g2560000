@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
   }
 
   // Generate the image URL dynamically using urlFor and ensure proper dimensions
-  const ogImageUrl = course.image ? urlFor(course.image).width(1200).height(630).url() : "";
+  const imageUrl = course.image ? urlFor(course.image).width(1200).height(630).url() : "";
 
   return {
     title: `${course.title} | Study Visa Consultant`,
@@ -44,19 +44,19 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/course/${course.slug}`,
-      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [], // Ensure correct image dimensions
-      type: 'article', // Set Open Graph type as 'article'
+      images: [imageUrl],     
+       type: 'article', // Set Open Graph type as 'article'
     },
     twitter: {
       card: 'summary_large_image',
       title: course.title,
       description: course.description,
-      images: ogImageUrl ? [{ url: ogImageUrl }] : [],
+      images: [imageUrl],
     },
     other: {
       'pinterest:title': course.title,
       'pinterest:description': course.description,
-      'pinterest:image': ogImageUrl ? ogImageUrl : "",
+      'pinterest:image': imageUrl,
     },
   };
 }
