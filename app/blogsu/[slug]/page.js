@@ -31,14 +31,14 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/success/${course.slug}`,
-      images: [imageUrl],
+      images: [{ url: imageUrl }], // Corrected to be an object with "url"
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: course.title,
       description: course.description,
-      images: [imageUrl],
+      images: [{ url: imageUrl }], // Corrected to be an object with "url"
     },
     other: {
       'pinterest:title': course.title,

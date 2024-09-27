@@ -1,8 +1,8 @@
-import Image from "next/image";
 import BlogDetails from "@/components/blogdetail/page";
 import siteMetadata from "@/utils/siteMetaData";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 
@@ -29,7 +29,8 @@ export async function generateMetadata({ params }) {
     return null;
   }
 
-  const imageList = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Correct variable name here
+  const imageUrl = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
 
   return {
     title: blog.title,
@@ -38,19 +39,19 @@ export async function generateMetadata({ params }) {
       title: blog.title,
       description: blog.description,
       url: `https://www.galaxyeducation.org/blog/${params.slug}`,
-      images: [imageList],
+      images: [{ url: imageUrl }], // Use imageUrl instead of imageList
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: blog.title,
       description: blog.description,
-      images: [imageList],
+      images: [imageUrl], // Use imageUrl instead of imageList
     },
     other: {
       'pinterest:title': blog.title,
       'pinterest:description': blog.description,
-      'pinterest:image': imageList,
+      'pinterest:image': imageUrl, // Use imageUrl instead of imageList
     },
   };
 }
@@ -81,7 +82,8 @@ export default async function BlogPage({ params }) {
     return null;
   }
 
-  const imageList = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Correct the imageUrl here as well
+  const imageUrl = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
 
   const headings = [];
   if (blog.heading1) {

@@ -26,8 +26,8 @@ export async function generateMetadata({ params }) {
 
   const course = await client.fetch(query, { slug });
 
-  // Fallback for Open Graph image
-  const ogImageUrl = course.imageUrl || "https://www.galaxyeducation.org/default-image.png";
+  // Set ogImageUrl to course.imageUrl (or use a fallback if it's not available)
+  const ogImageUrl = course.imageUrl || 'https://www.galaxyeducation.org/default-og-image.jpg';
 
   return {
     title: `${course.title} | Study Visa Consultant`,
