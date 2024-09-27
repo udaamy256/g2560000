@@ -1,6 +1,5 @@
 import Image from "next/image";
 import BlogDetails from "@/components/blogdetail/page";
-import siteMetadata from "@/utils/siteMetaData";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
@@ -30,28 +29,30 @@ export async function generateMetadata({ params }) {
     return null;
   }
 
-  const imageList = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Generate the image URL using urlFor from Sanity
+  const imageUrl = blog.image ? urlFor(blog.image).url() : null;
 
+  // Generate metadata for Open Graph and Twitter
   return {
-    title: blog.title,
-    description: blog.description,
+    title: blog.title || "No title available",
+    description: blog.description || "No description available",
     openGraph: {
       title: blog.title,
       description: blog.description,
       url: `https://www.galaxyeducation.org/blog/${params.slug}`,
-      images: [imageList],
+      images: imageUrl ? [{ url: imageUrl }] : [], // Ensure that this field is filled properly
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: blog.title,
       description: blog.description,
-      images: [imageList],
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
     other: {
       'pinterest:title': blog.title,
       'pinterest:description': blog.description,
-      'pinterest:image': imageList,
+      'pinterest:image': imageUrl,
     },
   };
 }
@@ -75,7 +76,7 @@ export default async function BlogPage({ params }) {
       heading2
     }
   `;
-  
+
   const blog = await client.fetch(query, { slug: params.slug });
 
   if (!blog) {
@@ -106,6 +107,9 @@ export default async function BlogPage({ params }) {
       });
   }
 
+  // Dynamically generate image URL using urlFor from Sanity
+  const imageUrl = blog.image ? urlFor(blog.image).url() : null;
+
   return (
     <article>
       <div className="mb-8 text-center relative w-full h-[70vh] bg-gray-800">
@@ -115,9 +119,9 @@ export default async function BlogPage({ params }) {
           </h1>
         </div>
         <div className="absolute top-0 left-0 right-0 bottom-0 h-full bg-gray-800/60" />
-        {blog.image && (
+        {imageUrl && (
           <Image
-            src={urlFor(blog.image).url()}
+            src={imageUrl}
             alt={blog.title}
             fill
             className="aspect-square w-full h-full object-cover object-center"

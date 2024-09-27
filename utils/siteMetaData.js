@@ -7,7 +7,6 @@ const siteMetadata = {
   theme: 'dark', // system, dark or light
   siteUrl: 'https://www.galaxyeducation.org/', // your website URL
   siteLogo: '/logo.png',
-  socialBanner: '/social-banner.png', // add social banner in the public folder
   email: 'galaxyconsultant25600@gmail.com',
   facebook: 'https://www.facebook.com/GalaxyAbraodEducation',
   youtube: 'https://www.youtube.com/@Educationconsultant-o2j',

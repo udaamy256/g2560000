@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import VisitCourseButton from "@/components/button/page";
+import { urlFor } from "@/sanity/lib/image"; // Import urlFor to generate image URLs
 
-export const revalidate = 60; // seconds
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export async function generateStaticParams() {
   const query = `*[_type=='course']{
@@ -12,7 +13,7 @@ export async function generateStaticParams() {
   return slugs.map((item) => ({ slug: item.slug }));
 }
 
-// To create static pages for dynamic routes
+// Generate metadata for SEO and social sharing
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
@@ -20,14 +21,21 @@ export async function generateMetadata({ params }) {
   const query = `*[_type=="course" && slug.current == $slug]{
     description,
     "slug": slug.current,
-    "imageUrl": image.asset->url,
+    image,
     title
   }[0]`;
 
   const course = await client.fetch(query, { slug });
 
-  // Set ogImageUrl to course.imageUrl (or use a fallback if it's not available)
-  const ogImageUrl = course.imageUrl || 'https://www.galaxyeducation.org/default-og-image.jpg';
+  if (!course) {
+    return {
+      title: "Course not found",
+      description: "Course details are unavailable.",
+    };
+  }
+
+  // Generate the image URL dynamically using urlFor and ensure proper dimensions
+  const ogImageUrl = course.image ? urlFor(course.image).width(1200).height(630).url() : "";
 
   return {
     title: `${course.title} | Study Visa Consultant`,
@@ -36,19 +44,19 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/course/${course.slug}`,
-      images: [{ url: ogImageUrl }],
-      type: 'website',
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [], // Ensure correct image dimensions
+      type: 'article', // Set Open Graph type as 'article'
     },
     twitter: {
       card: 'summary_large_image',
       title: course.title,
       description: course.description,
-      images: [ogImageUrl],
+      images: ogImageUrl ? [{ url: ogImageUrl }] : [],
     },
     other: {
       'pinterest:title': course.title,
       'pinterest:description': course.description,
-      'pinterest:image': ogImageUrl,
+      'pinterest:image': ogImageUrl ? ogImageUrl : "",
     },
   };
 }
@@ -56,16 +64,21 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const { slug } = params;
 
-  // Fetching the course based on the slug
-  const query = `*[_type=="course" && slug.current == $slug]{
+  // Fetch the course based on the slug
+  const query = `*[_type=="course" && slug.current == $slug][0]{
     description,
     "slug": slug.current,
-    "imageUrl": image.asset->url,
+    image,
     title,
     href
-  }[0]`; // Fetch only the first matching document
+  }`;
 
   const course = await client.fetch(query, { slug });
+
+  // Check if course data is null or undefined
+  if (!course) {
+    return <div className="text-center">Course not found</div>;
+  }
 
   return (
     <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8 items-center text-dark dark:text-light">
@@ -80,12 +93,12 @@ export default async function Page({ params }) {
       </section>
 
       {/* Course Image */}
-      {course.imageUrl && (
+      {course.image && (
         <div className="w-full max-w-4xl">
           <Image
-            src={course.imageUrl}
-            width={1300}
-            height={500}
+            src={urlFor(course.image).width(1200).height(630).url()} // Ensure image dimensions are suitable for social preview
+            width={1200}
+            height={630}
             alt={course.title || "Course image"}
             className="rounded w-full object-cover"
           />

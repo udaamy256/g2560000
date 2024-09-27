@@ -1,18 +1,18 @@
 import BlogDetails from "@/components/blogdetail/page";
-import siteMetadata from "@/utils/siteMetaData";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 
-// Use generateMetadata for handling meta tags and SEO
+// Generate metadata with proper Open Graph and Twitter tags
 export async function generateMetadata({ params }) {
   if (!params?.slug) {
     notFound();
     return null;
   }
 
+  // Fetch blog data from Sanity
   const query = `
     *[_type == "uni" && slug.current == $slug][0]{
       title,
@@ -29,9 +29,10 @@ export async function generateMetadata({ params }) {
     return null;
   }
 
-  // Correct variable name here
-  const imageUrl = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Generate image URL if available
+  const imageUrl = blog.image ? urlFor(blog.image).url() : null;
 
+  // Ensure that the correct Open Graph and Twitter metadata is returned
   return {
     title: blog.title,
     description: blog.description,
@@ -39,19 +40,19 @@ export async function generateMetadata({ params }) {
       title: blog.title,
       description: blog.description,
       url: `https://www.galaxyeducation.org/blog/${params.slug}`,
-      images: [{ url: imageUrl }], // Use imageUrl instead of imageList
       type: 'article',
+      ...(imageUrl && { images: [{ url: imageUrl }] }), // Include image if it exists
     },
     twitter: {
       card: 'summary_large_image',
       title: blog.title,
       description: blog.description,
-      images: [imageUrl], // Use imageUrl instead of imageList
+      ...(imageUrl && { images: [imageUrl] }), // Include image if it exists
     },
     other: {
       'pinterest:title': blog.title,
       'pinterest:description': blog.description,
-      'pinterest:image': imageUrl, // Use imageUrl instead of imageList
+      ...(imageUrl && { 'pinterest:image': imageUrl }), // Include image if it exists
     },
   };
 }
@@ -62,6 +63,7 @@ export default async function BlogPage({ params }) {
     return null;
   }
 
+  // Fetch the blog data from Sanity
   const query = `
     *[_type == "uni" && slug.current == $slug][0]{
       title,
@@ -82,9 +84,10 @@ export default async function BlogPage({ params }) {
     return null;
   }
 
-  // Correct the imageUrl here as well
-  const imageUrl = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Generate image URL only if blog.image exists
+  const imageUrl = blog.image ? urlFor(blog.image).url() : null;
 
+  // Handle table of contents (TOC) headings
   const headings = [];
   if (blog.heading1) {
     headings.push({ text: blog.heading1, slug: "heading-1", level: "1" });
@@ -94,10 +97,11 @@ export default async function BlogPage({ params }) {
   }
 
   if (blog.content && Array.isArray(blog.content)) {
-    blog.content.filter(block => block.style && block.style.match(/^h[1-6]$/))
+    blog.content
+      .filter((block) => block.style && block.style.match(/^h[1-6]$/))
       .forEach((heading, index) => {
-        const level = heading.style.replace('h', ''); 
-        const text = heading.children.map(child => child.text).join("");
+        const level = heading.style.replace('h', '');
+        const text = heading.children.map((child) => child.text).join("");
         headings.push({
           text,
           slug: `content-heading-${index}`,
