@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image"; // Import urlFor to generate image URLs
+import { notFound } from "next/navigation";
 
-export const revalidate = 60; // seconds
+export const revalidate = 60; // Revalidate every 60 seconds
 
 // Fetch the dynamic params for static generation
 export async function generateStaticParams() {
@@ -34,8 +35,10 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  // Generate image URL from Sanity's image or fallback to null
-  const imageUrl = course.image ? urlFor(course.image).url() : null;
+  // Generate image URL from Sanity's image or fallback to a default image
+  const imageUrl = course.image
+    ? urlFor(course.image).width(1200).height(630).url() // Optimal dimensions for social sharing
+    : "https://www.galaxyeducation.org/default-image.jpg"; // Fallback if no image is found
 
   return {
     title: `${course.title} | Study Visa Consultant`,
@@ -44,14 +47,14 @@ export async function generateMetadata({ params }) {
       title: course.title,
       description: course.description,
       url: `https://www.galaxyeducation.org/course/${course.slug}`,
-      images: [imageUrl],
-      type: 'website',
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : [],
+      type: "article",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: course.title,
       description: course.description,
-      images: [imageUrl],
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
     other: {
       'pinterest:title': course.title,
@@ -71,13 +74,12 @@ export default async function Page({ params }) {
     "slug": slug.current,
     image,
     title
-  }`; // Fetch only the first matching document
+  }`;
 
   const course = await client.fetch(query, { slug });
 
-  // Check if course data is null or undefined
+  // If the course is not found, render a 404 page
   if (!course) {
-    // Render a 404 page or return a 404 status
     return (
       <div className="text-center">
         <h1 className="text-3xl lg:text-5xl font-bold mb-8">404 - Course Not Found</h1>
@@ -86,8 +88,10 @@ export default async function Page({ params }) {
     );
   }
 
-  // Dynamically generate image URL using urlFor from Sanity
-  const imageUrl = course.image ? urlFor(course.image).url() : null;
+  // Dynamically generate the image URL using urlFor from Sanity
+  const imageUrl = course.image
+    ? urlFor(course.image).url()
+    : "https://www.galaxyeducation.org/default-image.jpg"; // Fallback image
 
   return (
     <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8 items-center text-dark dark:text-light">

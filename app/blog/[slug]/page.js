@@ -27,8 +27,12 @@ export async function generateMetadata({ params }) {
     return null;
   }
 
-  const imageUrl = blog.image ? urlFor(blog.image).url() : siteMetadata.socialBanner;
+  // Ensure the image URL is available and meets Facebook's recommended dimensions (1200x630)
+  const imageUrl = blog.image
+    ? urlFor(blog.image).width(1200).height(630).url()
+    : siteMetadata.socialBanner; // Fallback to the siteMetadata banner if no image is found
 
+  // Return metadata with explicit og:image
   return {
     title: blog.title,
     description: blog.description,
@@ -36,14 +40,14 @@ export async function generateMetadata({ params }) {
       title: blog.title,
       description: blog.description,
       url: `https://www.galaxyeducation.org/course/${slug}`,
-      images: [imageUrl],
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : [], // Explicitly provide the image URL and dimensions
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: blog.title,
       description: blog.description,
-      images: [imageUrl],
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
     other: {
       'pinterest:title': blog.title,
@@ -74,17 +78,16 @@ export default async function BlogPage({ params }) {
     return null;
   }
 
-  // Dynamically generate image URL using urlFor from Sanity
-  const imageUrl = blog.image ? urlFor(blog.image).url() : null;
+  // Dynamically generate image URL with recommended dimensions for Facebook
+  const imageUrl = blog.image
+    ? urlFor(blog.image).width(1200).height(630).url()
+    : siteMetadata.socialBanner; // Fallback if no image is present
 
   // Render the page
   return (
     <article>
-         
       <div className="mb-8 text-center relative w-full h-[70vh] bg-gray-800">
-   
         <div className="w-full z-10 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-         
           {/* Visit Course Button */}
           <section className="mt-8 flex justify-center">
             <VisitCourseButton href={blog.href} />

@@ -58,6 +58,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Google AdSense account meta tag */}
+        <meta name="google-adsense-account" content="ca-pub-6998086632927114" />
         {/* You can add additional head elements if needed */}
       </head>
       <body
@@ -75,7 +77,7 @@ export default function RootLayout({ children }) {
     document.documentElement.classList.remove('dark')
   }`}
         </Script>
-        
+
         {/* Header and Footer are included around children */}
         <Header />
         <main>{children}</main>
