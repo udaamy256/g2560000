@@ -60,7 +60,22 @@ export default function RootLayout({ children }) {
       <head>
         {/* Google AdSense account meta tag */}
         <meta name="google-adsense-account" content="ca-pub-6998086632927114" />
-        {/* You can add additional head elements if needed */}
+        {/* Google Site Verification meta tag */}
+        <meta name="google-site-verification" content="Sscep0wpKsIUKeOJTHedOcq4NhzBBVW6TOzf809HvTY" />
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-Z8EPRTG6VF" />
+        <Script id="gtag-init">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-Z8EPRTG6VF');`}
+        </Script>
+        {/* Google AdSense script */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6998086632927114"
+          crossorigin="anonymous"
+        />
       </head>
       <body
         className={cx(
@@ -72,10 +87,10 @@ export default function RootLayout({ children }) {
         {/* Theme switcher script for dark/light mode */}
         <Script id="theme-switcher" strategy="beforeInteractive">
           {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }`}
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }`}
         </Script>
 
         {/* Header and Footer are included around children */}
