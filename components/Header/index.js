@@ -96,7 +96,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href="/success" onClick={toggle}>
+              <Link href="/Success" onClick={toggle}>
                 Success Stories
               </Link>
             </li>
@@ -130,7 +130,7 @@ const Header = () => {
           <Link href="/courses" className="mx-2">
             Courses
           </Link>
-          <Link href="/success" className="mx-2">
+          <Link href="/Success" className="mx-2">
             Success Stories
           </Link>
           <Link href="/contact" className="mx-2">
