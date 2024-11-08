@@ -4,7 +4,7 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import VisitCourseButton from "@/components/buttons/page";
+import VisitCourseButton from "@/components/button/page";
 import { PortableText } from "next-sanity";
 
 // Use the Metadata API for handling meta tags and SEO
