@@ -7,7 +7,7 @@ export default function VisitCourseButton({ href }) {
       onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
       className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-8 py-4 rounded-full transition-colors duration-300"
     >
-        <h1>Click Here to Get Course </h1>
+        <h1>For more Detail Vist </h1>
     </button>
   );
 }
