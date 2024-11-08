@@ -4,43 +4,46 @@ export const eventType = defineType({
   name: 'course',
   title: 'course',
   type: 'document',
-  fields: [
+    fields: [
     defineField({
-      name: "title",
-      type: "string",
-      title: "Post Title",
-      description: "Title of the post",
+      name: 'title',
+      type: 'string',
+      title: 'Post Title',
+      description: 'Title of the post',
       validation: (Rule) => Rule.required(),
     }),
+    
     defineField({
-      name: "slug",
-      type: "slug",
-      title: "Slug",
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
       options: {
-        source: "title",
+        source: 'title',
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "image",
-      type: "image",
-      title:'Image',
-    }),
-    defineField({
-      title: 'Link',
-      name: 'href',
-      type: 'url',
-      validation: Rule => Rule.uri({
-        scheme: ['http', 'https', 'mailto', 'tel']
-      })
+      name: 'image',
+      type: 'image',
+      title: 'Image',
+      options: {
+        hotspot: true, // Enables the cropping tool
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+        }),
+      ],
     }),
     defineField({
       title: 'Description',
       name: 'description',
-      type: 'text'
+      type: 'text',
+      validation: (Rule) => Rule.required().max(200),
     }),
    
-    
   ],
-})
+});
