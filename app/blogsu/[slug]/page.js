@@ -46,7 +46,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: course.title,
       description: course.description,
-      url: `https://www.galaxyeducation.org/course/${course.slug}`,
+      url: `https://www.galaxyeducation.org/blogsu/${course.slug}`,
       images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : [],
       type: "article",
     },
