@@ -25,15 +25,15 @@ export default function Contact() {
           <ul className="text-lg space-y-2">
             <li>
               <strong>Phone: </strong>
-              <a href="tel:+923325008560" className="text-blue-500 hover:underline">
+              <a href="tel:+923095704847" className="text-blue-500 hover:underline">
                 0332-5008560
               </a>
             </li>
             <li>
               <strong>Email: </strong>
-              <a href="mailto:abdulghfar256@gmail.com" className="text-blue-500 hover:underline">
-                abdulghfar256@gmail.com
-              </a>
+              <a href="mailto:galaxyeducation66@gmail.com" className="text-blue-500 hover:underline">
+                galaxyeducation66@gmail.com      
+               </a>
             </li>
             <li>
               <strong>Address: </strong>
