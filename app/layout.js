@@ -61,21 +61,31 @@ export default function RootLayout({ children }) {
         {/* Google AdSense account meta tag */}
         <meta name="google-adsense-account" content="ca-pub-6998086632927114" />
         {/* Google Site Verification meta tag */}
-        <meta name="google-site-verification" content="Sscep0wpKsIUKeOJTHedOcq4NhzBBVW6TOzf809HvTY" />
+        <meta
+          name="google-site-verification"
+          content="Sscep0wpKsIUKeOJTHedOcq4NhzBBVW6TOzf809HvTY"
+        />
         {/* Google tag (gtag.js) */}
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-Z8EPRTG6VF" />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z8EPRTG6VF"
+        />
         <Script id="gtag-init">
           {`window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-Z8EPRTG6VF');`}
         </Script>
-       <meta name='impact-site-verification' value='b4e29fa5-7e74-46cb-aded-390407d6a8ff'>
+        {/* Impact Site Verification meta tag */}
+        <meta
+          name="impact-site-verification"
+          content="b4e29fa5-7e74-46cb-aded-390407d6a8ff"
+        />
         {/* Google AdSense script */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6998086632927114"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
       </head>
       <body
