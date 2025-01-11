@@ -70,6 +70,7 @@ export default function RootLayout({ children }) {
           gtag('js', new Date());
           gtag('config', 'G-Z8EPRTG6VF');`}
         </Script>
+       <meta name='impact-site-verification' value='b4e29fa5-7e74-46cb-aded-390407d6a8ff'>
         {/* Google AdSense script */}
         <Script
           async
