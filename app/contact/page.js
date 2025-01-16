@@ -26,7 +26,7 @@ export default function Contact() {
             <li>
               <strong>Phone: </strong>
               <a href="tel:+923095704847" className="text-blue-500 hover:underline">
-                0332-5008560
+                03095704847
               </a>
             </li>
             <li>
