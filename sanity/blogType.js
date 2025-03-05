@@ -13,20 +13,6 @@ export const blogType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'heading1',
-      type: 'string',
-      title: 'Heading 1',
-      description: 'First heading of the post',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'heading2',
-      type: 'string',
-      title: 'Heading 2',
-      description: 'Second heading of the post',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'slug',
       type: 'slug',
       title: 'Slug',
@@ -52,30 +38,30 @@ export const blogType = defineType({
       ],
     }),
     defineField({
+      name: 'slideshow',
+      type: 'array',
+      title: 'Slideshow Images',
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true, // Enables cropping for each slideshow image
+          },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
       title: 'Description',
       name: 'description',
       type: 'text',
       validation: (Rule) => Rule.required().max(200),
-    }),
-    defineField({
-      title: 'Content',
-      name: 'content',
-      type: 'array',
-      of: [{ type: 'block' }],
-    }),
-    defineField({
-      name: 'tags',
-      type: 'array',
-      title: 'Tags',
-      of: [{ type: 'string' }],
-      options: {
-        layout: 'tags',
-      },
-    }),
-    defineField({
-      name: 'publishedAt',
-      type: 'datetime',
-      title: 'Published At',
     }),
   ],
 });
